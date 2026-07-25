@@ -9,7 +9,11 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi (>=0.140.0,<0.141.0)",
-    "uvicorn[standard] (>=0.51.0,<0.52.0)"
+    "uvicorn[standard] (>=0.51.0,<0.52.0)",
+    "sqlalchemy[asyncio] (>=2.0.51,<3.0.0)",
+    "asyncpg (>=0.31.0,<0.32.0)",
+    "pydantic-settings (>=2.14.2,<3.0.0)",
+    "alembic (>=1.18.5,<2.0.0)",
 ]
 
 [tool.poetry]
@@ -34,4 +38,4 @@ test = [
 ]
 
 [project.scripts]
-app = "src.lkeep.main:app"
+app = "fastapi_proj.main:run"
