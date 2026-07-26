@@ -23,7 +23,7 @@ class DBSettings(BaseSettings):
 
 class Settings(BaseSettings):
     db_settings: DBSettings = DBSettings()
-    # ... остальные настройки позже
+    secret_key: SecretStr
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 

@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from fastapi_proj.core.settings import settings   # ← поправь под своё имя пакета
+from fastapi_proj.core.settings import settings  # ← поправь под своё имя пакета
 
 
 class DBDependency:
