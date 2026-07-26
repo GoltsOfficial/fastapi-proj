@@ -10,7 +10,9 @@ class DBSettings(BaseSettings):
     db_port: int
     db_echo: bool = False
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", extra="ignore"
+    )
 
     @property
     def db_url(self) -> str:
@@ -23,9 +25,11 @@ class DBSettings(BaseSettings):
 
 class Settings(BaseSettings):
     db_settings: DBSettings = DBSettings()
-    # ... остальные настройки позже
+    secret_key: SecretStr
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", extra="ignore"
+    )
 
 
 settings = Settings()
