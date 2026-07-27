@@ -30,9 +30,7 @@ class RedisDependency:
         :returns: Пул соединений для работы с Redis.
         :rtype: ConnectionPool
         """
-        return ConnectionPool.from_url(
-            url=self._url, encoding="utf-8", decode_responses=True
-        )
+        return ConnectionPool.from_url(url=self._url, encoding="utf-8", decode_responses=True)
 
     @asynccontextmanager
     async def get_client(self) -> AsyncGenerator[Redis]:

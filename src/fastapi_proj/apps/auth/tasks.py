@@ -29,9 +29,7 @@ def send_text_confirmation_email(to_email: str, token: str) -> None:
     message["To"] = to_email
     message["Subject"] = "Подтверждение регистрации"
 
-    with smtplib.SMTP_SSL(
-        host=settings.email_settings.email_host, port=settings.email_settings.email_port
-    ) as smtp:
+    with smtplib.SMTP_SSL(host=settings.email_settings.email_host, port=settings.email_settings.email_port) as smtp:
         smtp.login(
             user=settings.email_settings.email_username,
             password=settings.email_settings.email_password.get_secret_value(),
@@ -61,9 +59,7 @@ def send_confirmation_email(to_email: str, token: str) -> None:
     message["To"] = to_email
     message["Subject"] = "Подтверждение регистрации"
 
-    with smtplib.SMTP_SSL(
-        host=settings.email_settings.email_host, port=settings.email_settings.email_port
-    ) as smtp:
+    with smtplib.SMTP_SSL(host=settings.email_settings.email_host, port=settings.email_settings.email_port) as smtp:
         smtp.login(
             user=settings.email_settings.email_username,
             password=settings.email_settings.email_password.get_secret_value(),
