@@ -33,15 +33,11 @@ async def get_current_user(
     session_id = str(decoded_token.get("session_id"))
 
     if not await manager.get_access_token(user_id=user_id, session_id=session_id):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is invalid"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is invalid")
 
     user = await manager.get_user_by_id(user_id=uuid.UUID(user_id))
     if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
 
     user.session_id = session_id
 

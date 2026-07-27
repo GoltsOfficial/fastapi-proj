@@ -15,11 +15,7 @@ class ProfileManager:
 
     async def update_user_fields(self, user_id: uuid.UUID | str, **kwargs: Any) -> None:
         async with self.db.db_session() as session:
-            query = (
-                update(self.user_model)
-                .where(self.user_model.id == user_id)
-                .values(**kwargs)
-            )
+            query = update(self.user_model).where(self.user_model.id == user_id).values(**kwargs)
 
             await session.execute(query)
 
@@ -27,9 +23,7 @@ class ProfileManager:
 
     async def get_user_hashed_password(self, user_id: uuid.UUID | str) -> str:
         async with self.db.db_session() as session:
-            query = select(self.user_model.hashed_password).where(
-                self.user_model.id == user_id
-            )
+            query = select(self.user_model.hashed_password).where(self.user_model.id == user_id)
 
             result = await session.execute(query)
 
