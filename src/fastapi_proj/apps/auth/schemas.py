@@ -1,7 +1,8 @@
 import datetime
 import uuid
+from typing import Annotated
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, StringConstraints
 
 
 class GetUserByID(BaseModel):
@@ -26,6 +27,17 @@ class GetUserByEmail(BaseModel):
     email: EmailStr
 
 
+class UserVerifySchema(GetUserByID, GetUserByEmail):
+    """
+    Класс для валидации данных пользователя.
+
+    Данный класс наследует методы из классов GetUserByID и GetUserByEmail,
+    что позволяет использовать их функциональность для проверки данных пользователя.
+    """
+
+    session_id: uuid.UUID | str | None = None
+
+
 class AuthUser(GetUserByEmail):
     """
     Класс для регистрации пользователя, наследующий класс GetUserByEmail.
@@ -34,7 +46,7 @@ class AuthUser(GetUserByEmail):
     :type password: str
     """
 
-    password: str
+    password: Annotated[str, StringConstraints(min_length=8, max_length=128)]
 
 
 class CreateUser(GetUserByEmail):
@@ -59,6 +71,8 @@ class GetUserWithIDAndEmail(GetUserByID, CreateUser):
     :ivar hashed_password: Хэшированный пароль пользователя.
     :type hashed_password: str
     """
+
+    pass
 
 
 class UserReturnData(GetUserByID, GetUserByEmail):

@@ -1,8 +1,11 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends
 from starlette import status
 from starlette.responses import JSONResponse
 
-from fastapi_proj.apps.auth.schemas import AuthUser, UserReturnData
+from fastapi_proj.apps.auth.depends import get_current_user
+from fastapi_proj.apps.auth.schemas import AuthUser, UserReturnData, UserVerifySchema
 from fastapi_proj.apps.auth.services import UserService
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
@@ -55,3 +58,38 @@ async def login(user: AuthUser, service: UserService = Depends(UserService)) -> 
     :raises HTTPException: Если учетные данные не верны или произошла другая ошибка при входе.
     """
     return await service.login_user(user=user)
+
+
+@auth_router.get(path="/logout", status_code=status.HTTP_200_OK)
+async def logout(
+    user: Annotated[UserVerifySchema, Depends(get_current_user)],
+    service: UserService = Depends(UserService),
+) -> JSONResponse:
+    """
+    Описание функции logout.
+
+    :param user: Текущий авторизованный пользователь.
+    :type user: UserVerifySchema
+    :param service: Сервис для управления пользователями.
+    :type service: UserService
+    :returns: JSON-ответ, содержащий результат логаута.
+    :rtype: JSONResponse
+    """
+    return await service.logout_user(user=user)
+
+
+@auth_router.get(path="/get-user", status_code=status.HTTP_200_OK, response_model=UserVerifySchema)
+async def get_auth_user(
+    user: Annotated[UserVerifySchema, Depends(get_current_user)],
+) -> UserVerifySchema:
+    """
+    Возвращает информацию об авторизованном пользователе.
+
+    :param user: Информация о пользователе, полученная с помощью механизма аутентификации.
+    :type user: UserVerifySchema
+    :return: Схема данных пользователя, содержащая необходимую информацию для работы системы.
+    :rtype: UserVerifySchema
+
+    :raises HTTPException 401: Если пользователь не авторизован и попытка получить доступ к защищенному ресурсу.
+    """
+    return user
