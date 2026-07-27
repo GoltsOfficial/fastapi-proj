@@ -9,4 +9,4 @@ app.include_router(router=apps_router)
 
 
 def run():
-    uvicorn.run("fastapi_proj.main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run(app="fastapi_proj.main:app", reload=True)
